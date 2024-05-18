@@ -1,0 +1,195 @@
+ /* Donate process */
+& .Donates{
+	width: 1160px;
+	margin: 4rem auto 0 auto;
+	position: relative;
+	& > p{
+		text-align: center;
+		font-size: 14px;
+		color: var(--red);
+	}
+	& > h2{
+		font-size: 2rem;
+		font-family: var(--Font-Family2);
+		letter-spacing: 2px;
+		margin: 0 0  2rem 0;
+		text-align: center;
+	}
+	& > .process_donate {
+		display: inline-block;
+		width: 100%;
+		margin: 0 auto;
+		position: relative;
+
+		& > .process_donate_line {
+			width: 8px;
+			background-color: var(--light-gray);
+			position: absolute;
+			top: 2px;
+			left: 50%;
+			bottom: 0;
+			border-radius: 50px;
+			overflow: hidden;
+			transform: translateX(-50%);
+
+		& > .line-progress {
+			width: 100%;
+			height: 20%;
+			background-color: #e44d4d;
+			
+		}
+		}
+
+		& .process_donate_item {
+		margin: 0 0 50px;
+		position: relative;
+		& .card_box {
+			padding: 0 0 20px 50%;
+			
+			& .point_box {
+				display: inline-block;
+				margin: 0 14px 0 -28px;
+				
+				& .card_point {
+					height: 50px;
+					line-height: 50px;
+					width: 50px;
+					border: 3px solid rgb(217, 217, 169);
+					background-color:var(--light-gray);
+					text-align: center;
+					font-size: 20px;
+					font-family: var(--Font-Family2);
+					color: black;
+					border-radius: 50%;
+				}
+			}
+			& .card_meta_box {
+				display: inline-block;
+				& .card_meta {
+					margin: 10px 0 0;
+					font-size: 28px;
+					color: var(--red);
+					font-family: var(--Font-Family2);
+					font-weight: var(--Font-weight-Bold);
+					letter-spacing: 2px;
+				}
+			}
+
+		}
+
+		
+		& .card_item {
+			display: inline-block;
+			width: 450px;
+			margin: -77px 0 0;
+			background-color: var(--light-gray);
+			opacity: 0;
+			border-radius: 6px;
+			box-shadow: 0 0 0 0 rgba(0,0,0,.5);
+			transition: transform .5s, opacity .5s;
+			position: relative;
+			
+			& .card_inner{
+				& .card_img-box{
+					display: flex;
+					justify-content: center;
+					flex-direction: column;
+					& span{
+						text-align: center;
+						font-size: 3rem;
+						padding-top: 10px;
+					}
+					& p{
+						padding:10px 1.4rem 1.4rem 1em;
+						color: var(--Desaturated-gray-color);
+						text-align: center;
+					}
+				}
+			}
+
+			& .arrow {
+				height: 18px;
+				width: 18px;
+				margin-top: 20px;
+				background-color: #ed562c;
+				z-index: -1;
+				position: absolute;
+				top: 0;
+				right: 0;
+				transform: rotate(45deg);
+			}
+		}
+
+		}
+		& .process_donate_item:nth-child(2n) {
+		text-align: right;
+		& .card_box {
+			padding: 0 50% 20px 0;
+			& .point_box {
+				margin: 0 -28px 0 14px;
+			}
+		}
+		}
+	}
+	& .process_donate_item:nth-child(2n+1) {
+		& .card_item {
+			transform: translateX(-200%);
+			& .arrow {
+				margin-left: calc(-18px / 2);
+				margin-right: calc(-18px / 2);
+			}
+		}
+	} 
+	& .process_donate_item:nth-child(2n){
+		& .card_item {
+			transform: translateX(200%);
+	
+			& .arrow {
+				margin-left: -10px;
+				right: auto;
+				left: 0;
+			}	
+		}
+	}
+	
+	& .js-ag-active.process_donate_item:nth-child(2n+1) .card_item,
+	& .js-ag-active.process_donate_item:nth-child(2n) .card_item {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+}
+
+
+ 
+.js-ag-active.card_point {
+	color: #1d1d1b;
+	background-color: #f44738;
+}
+
+/*  Responsive style */
+@media only screen and (max-width: 600px) {
+    body{
+		overflow-x: hidden!important;
+		& .Donates{
+			max-width: 100%;
+			margin-bottom: 2rem;
+			& .card_meta{
+				font-size: 1rem!important;
+			}
+			& .card_item, & .js-ag-active.process_donate_item{
+				max-width: 95%!important;
+			}
+			& .js-ag-active.process_donate_item:nth-child(2n){
+				& .card_item {
+					transform: translateY(20%);
+				}
+			}
+			& .js-ag-active.process_donate_item:nth-child(2n + 1){
+				& .card_item {
+					transform: translate(5%, 30%);
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="assets/images/Logo-donation.png" sizes="48x48" type="image/png" />
+    <!-- BoxIcons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/labEmpl.css">
+    <!-- Icons link -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+
+
+
+    <title>Admin</title>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+
+        <a href="/" class="logo">
+            <img src="assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px">
+            <p>VitaLab</p>
+        </a>
+
+        <ul class="side-menu top">
+
+            <li>
+                <a href="/">
+                    <i class='bx bxs-home'></i>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+
+            <li>
+                <form>
+                    <input type="hidden" name="all_donors" value="1">
+                    <div type="submit" class="link-button">
+                        <i class="bx"><span class="material-symbols-outlined">diversity_3</span></i>
+                        <span class="text">Donation History </span>
+                    </div>
+                </form>
+
+            </li>
+
+            <li>
+                <a href="/create-donation">
+                    <i class='bx bxs-calendar-event'></i>
+                    <span class="text">Create Donation</span>
+                </a>
+            </li>
+
+
+
+            <li>
+                <a href="/register">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Register Donor</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <ul class="side-menu">
+            <li id="settingsLink">
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="/" class="logout">
+                    <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+
+    </section>
+    <!-- Main content section -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <div>
+                <i class='bx bx-menu'></i>
+                <a href="#" class="nav-link">Categories</a>
+            </div>
+
+            <div>
+                <input type="checkbox" id="switch-mode" hidden>
+                <label for="switch-mode" class="switch-mode"></label>
+
+                <a href="#" class="notification">
+                    <i class='bx bxs-bell'></i>
+                    <span class="num">8</span>
+                </a>
+
+
+            </div>
+        </nav>
+
+        <main>
+
+
+            <!-- Table data section -->
+            <section class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Recent Donors</h3>
+                        <!-- Search form -->
+                        <form action="/search" method="post" class="form-donor">
+                            <div class="form-input">
+                                <input type="text" name="search_term" placeholder="Search donors...">
+                                <button type="submit" class="search-btn" aria-label="Search">
+                                    <i class='bx bx-search'></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Donor Table -->
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Registration Date</th>
+                                <th>Age</th>
+                                <th>Weight</th>
+                                <th>Blood Group</th>
+                                <th>Health</th>
+                                <th>Blood Volume</th>
+                            </tr>
+                        </thead>
+
+
+                        <% if(rows!==undefined) { %>
+                            <% for(let row of rows){%>
+                                <tr>
+                                    <td>
+                                        <%= row.username %>
+                                    </td>
+                                    <td>
+                                        <%= row.address %>
+                                    </td>
+                                    <td>
+                                        <%= row.phone %>
+                                    </td>
+                                    <td>
+                                        <%= row.email %>
+                                    </td>
+                                    <td>
+                                        <%= row.registration_date %>
+                                    </td>
+                                    <td>
+                                        <%= row.age %>
+                                    </td>
+                                    <td>
+                                        <%= row.weight %>
+                                    </td>
+                                    <td>
+                                        <%= row.blood_group %>
+                                    </td>
+                                    <td>
+                                        <%= row.health %>
+                                    </td>
+                                    <td>
+                                        <%= row.blood_volume %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <% } %>
+                    </table>
+            </section>
+        </main>
+    </section>
+</body>
+
+</html>

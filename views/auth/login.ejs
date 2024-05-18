@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="assets/images/Logo-donation.png" sizes="48x48" type="image/png" />
+    <!-- Icons link -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- Styles link -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/register.css">
+
+    <title>Login</title>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="../Home/Home Page.html" class="logo">
+            <img src="assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px">
+            <p>VitaLab</p>
+        </a>
+        <ul class="ulMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        <span class="material-symbols-outlined hamburger">menu</span>
+        <span class="material-symbols-outlined closeIcone">close</span>
+    </nav>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+
+        if (error === 'invalid') {
+            alert('Invalid userid or password');
+        }
+    </script>
+    <!-- main -->
+    <main class="login">
+        <section class="container login-container">
+            <article class="container-form">
+                <h2>Login now!</h2>
+                <form action="/login" method="post">
+                    <div class="group-inputs">
+                        <div>
+                            <label for="userid">Userid</label>
+                            <input type="number" name="userid" id="userid" placeholder="Enter your ID" />
+                        </div>
+                        <div>
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" placeholder="Enter your password" />
+                        </div>
+                    </div>
+                    <button type="submit">Login</button>
+
+                </form>
+                <div style="display: inline-block; margin-top: 5px;">
+                    <button><a href="/" class="btn">Go to Home Page</a></button>
+                </div>
+
+
+
+            </article>
+            <article class="welcome-message login-welcome">
+                <div class="infos">
+                    <h2>Welcome to <b>Vitalab Laboratory</b> Your Partner in Blood Donation Management!</h2>
+
+                    <p>Join us in saving lives by donating blood. Your contribution can make a significant difference in someone's life. Together, we can ensure that hospitals have an adequate blood supply to help those in need.</p>
+
+                </div>
+            </article>
+        </section>
+
+    </main>
+    <script src="../../public/js/nav.js"></script>
+</body>
+
+</html>
