@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const nodemailer = require("nodemailer");
 const schedule = require('node-schedule');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 3000;
@@ -11,14 +13,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'blood',
-    password: '12345',
-    port: 5432
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT
 });
-
-pool.connect();
 
 app.post("/submit", async(req, res) => {
     try {
@@ -27,33 +27,31 @@ app.post("/submit", async(req, res) => {
             return res.status(400).send("Username is required");
         }
 
-        // Insert the registration data into the 'donor' table
         const query = `
             INSERT INTO donor (username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         `;
         await pool.query(query, [username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume]);
 
-        // Schedule the email to be sent at 8:00 AM on registration date
         const registrationDate = new Date(registration_date);
-        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 8, 0, 0);
+        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 16, 34, 0);
+
+        console.log(`Scheduling email for ${username} at ${scheduleDate}`);
 
         const job = schedule.scheduleJob(scheduleDate, async function() {
             try {
-                // Send email to registered donor
                 const transporter = nodemailer.createTransport({
                     host: "smtp.gmail.com",
                     port: 465,
                     secure: true,
                     auth: {
-                        user: "***-example-person@gmail.com",
-                        pass: "your-password",
-                        // ⚠️ Use environment variables set on the server for these values when deploying
+                        user: process.env.EMAIL_USER,
+                        pass: process.env.EMAIL_PASS
                     },
                 });
 
-                const info = await transporter.sendMail({
-                    from: '"You" <lingaraj.cs21@bmsce.ac.in>',
+                const mailOptions = {
+                    from: `"You" <${process.env.EMAIL_USER}>`,
                     to: email,
                     subject: "Come and Donate the Blood",
                     html: `
@@ -73,15 +71,16 @@ app.post("/submit", async(req, res) => {
                         <li>Blood Volume: ${blood_volume}</li>
                     </ul>
                     `,
-                });
+                };
 
-                console.log(info.messageId);
+                console.log(`Sending email to ${email}`);
+                const info = await transporter.sendMail(mailOptions);
+                console.log('Email sent:', info.messageId);
             } catch (error) {
                 console.error("Error sending email:", error);
             }
         });
 
-        // Redirect to the confirmation page after successful insertion
         res.redirect("/confirmation");
     } catch (error) {
         console.error("Error inserting data into database:", error);
@@ -97,14 +96,14 @@ app.post('/login', async(req, res) => {
 
     try {
         if (userid == hardcodedUserId) {
-            // Compare password directly (no hashing for demonstration purpose)
-            if (password === hardcodedPassword) {
-                res.redirect('/admin'); // Render admin.ejs if passwords match
+            const match = await bcrypt.compare(password, hardcodedPassword); // assuming hardcodedPassword is hashed
+            if (match) {
+                res.redirect('/admin');
             } else {
-                res.redirect('/login?error=invalid'); // Redirect with error query parameter
+                res.redirect('/login?error=invalid');
             }
         } else {
-            res.redirect('/login?error=invalid'); // Redirect with error query parameter
+            res.redirect('/login?error=invalid');
         }
     } catch (error) {
         console.error(error);
@@ -112,42 +111,24 @@ app.post('/login', async(req, res) => {
     }
 });
 
-app.get("/admin", (req, res) => {
-    // res.render('Admin page/admin.ejs', {
-    //     rows: undefined
-    // });
-    pool.connect((err, pool, release) => {
-        if (err) {
-            console.error('Error acquiring client', err.stack);
-            return;
-        }
-        pool.query('SELECT * FROM donor', (err, result) => {
-
-            result.rows = result.rows.map(row => {
-                const date = new Date(row.registration_date);
-
-                // Extract the day, month, and year
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-                const year = date.getFullYear();
-
-                // Format the date as dd-mm-yyyy
-                row.registration_date = `${day}-${month}-${year}`;
-
-                return row;
-            });
-
-            res.render('Admin page/admin.ejs', {
-                rows: result.rows
-            })
-            release(); // Release the client back to the pool
-            // pool.end(); // End the pool (optional)
+app.get("/admin", async(req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM donor');
+        const rows = result.rows.map(row => {
+            const date = new Date(row.registration_date);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            row.registration_date = `${day}-${month}-${year}`;
+            return row;
         });
-    });
+
+        res.render('Admin page/admin.ejs', { rows });
+    } catch (err) {
+        console.error('Error executing query', err.stack);
+        res.status(500).send('An error occurred while processing your request.');
+    }
 });
-
-
-
 
 app.get("/login", (req, res) => {
     res.render("auth/login.ejs");
@@ -169,7 +150,6 @@ app.get("/contact", (req, res) => {
     res.render("Home/contact.ejs");
 });
 
-
 app.get("/register", (req, res) => {
     res.render("auth/register.ejs");
 });
@@ -178,7 +158,6 @@ app.get("/confirmation", (req, res) => {
     res.render("confirmation.ejs");
 });
 
-
 app.get('/create-donation', (req, res) => {
     res.render('Admin page/create-donation.ejs');
 });
@@ -186,8 +165,3 @@ app.get('/create-donation', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
-// git add .
-// git status
-// git commit -m "second commit"
-// git push
