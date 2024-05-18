@@ -30,7 +30,9 @@ pool.connect()
 app.post("/submit", async(req, res) => {
     try {
         const { username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume } = req.body;
-
+        if (!username) {
+            return res.status(400).send("Username is required");
+        }
         // Insert the registration data into the 'donor' table
         const query = `
             INSERT INTO donor (username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume)
