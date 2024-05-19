@@ -34,7 +34,7 @@ app.post("/submit", async(req, res) => {
         await pool.query(query, [username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume]);
 
         const registrationDate = new Date(registration_date);
-        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 16, 34, 0);
+        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 9, 36, 0);
 
         console.log(`Scheduling email for ${username} at ${scheduleDate}`);
 
@@ -46,8 +46,8 @@ app.post("/submit", async(req, res) => {
                     secure: true,
                     auth: {
                         user: process.env.EMAIL_USER,
-                        pass: process.env.EMAIL_PASS
-                    },
+                        pass: process.env.EMAIL_PASS,
+                    }
                 });
 
                 const mailOptions = {
