@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const nodemailer = require("nodemailer");
@@ -8,6 +9,9 @@ const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 3000;
+app.set('view engine', 'ejs');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,7 +38,7 @@ app.post("/submit", async(req, res) => {
         await pool.query(query, [username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume]);
 
         const registrationDate = new Date(registration_date);
-        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 9, 36, 0);
+        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 11, 20, 0);
 
         console.log(`Scheduling email for ${username} at ${scheduleDate}`);
 
@@ -88,45 +92,67 @@ app.post("/submit", async(req, res) => {
     }
 });
 
+app.get('/admin', async(req, res) => {
+    try {
+        pool.query('SELECT * FROM donor order by id desc', (err, result) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Server Error');
+                return;
+            }
+
+            // Format each registration_date in the result set
+            result.rows = result.rows.map(row => {
+                const date = new Date(row.registration_date);
+
+                // Extract the day, month, and year
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                const year = date.getFullYear();
+
+                // Format the date as dd-mm-yyyy
+                row.registration_date = `${day}-${month}-${year}`;
+
+                return row;
+            });
+
+            // Render the result with formatted dates
+            res.render('Admin page/admin.ejs', {
+                rows: result.rows
+            });
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+
+});
+
+
+
+
+
 const hardcodedUserId = 123;
-const hardcodedPassword = 'p123';
+const plainPassword = 'p123';
+const saltRounds = 10;
+
+// Hash the password synchronously
+const hardcodedHashedPassword = bcrypt.hashSync(plainPassword, saltRounds);
 
 app.post('/login', async(req, res) => {
     const { userid, password } = req.body;
-
     try {
-        if (userid == hardcodedUserId) {
-            const match = await bcrypt.compare(password, hardcodedPassword); // assuming hardcodedPassword is hashed
+        if (parseInt(userid) === hardcodedUserId) {
+            const match = await bcrypt.compare(password, hardcodedHashedPassword);
             if (match) {
                 res.redirect('/admin');
             } else {
                 res.redirect('/login?error=invalid');
             }
-        } else {
-            res.redirect('/login?error=invalid');
         }
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');
-    }
-});
-
-app.get("/admin", async(req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM donor');
-        const rows = result.rows.map(row => {
-            const date = new Date(row.registration_date);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            row.registration_date = `${day}-${month}-${year}`;
-            return row;
-        });
-
-        res.render('Admin page/admin.ejs', { rows });
-    } catch (err) {
-        console.error('Error executing query', err.stack);
-        res.status(500).send('An error occurred while processing your request.');
     }
 });
 
