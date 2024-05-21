@@ -94,10 +94,10 @@
                         <div>
                             <label for="text">Health</label>
                             <select name="health" id="health">
-                        <option value="" selected disabled hidden>Do you have any diseases?</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                        </select>
+                                <option value="" selected disabled hidden>Do you have any diseases?</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
                         </div>
                         <div>
                             <label for="blood_volume">Blood Volume (in ml)</label>
@@ -121,6 +121,81 @@
         </section>
 
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.querySelector("form");
+
+            form.addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get form inputs
+                var username = document.getElementById("username").value.trim();
+                var address = document.getElementById("address").value.trim();
+                var phone = document.getElementById("phone").value.trim();
+                var email = document.getElementById("email").value.trim();
+                var registrationDate = document.getElementById("registration_date").value.trim();
+                var age = parseInt(document.getElementById("age").value.trim()); // Parse to integer for numeric comparison
+                var weight = parseInt(document.getElementById("weight").value.trim()); // Parse to integer for numeric comparison
+                var bloodGroup = document.getElementById("blood_group").value;
+                var health = document.getElementById("health").value;
+                var bloodVolume = parseInt(document.getElementById("blood_volume").value.trim()); // Parse to integer for numeric comparison
+
+                const emailRegex = /\S+@\S+\.\S+/;
+                const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+
+                // Perform validation
+                if (username === "") {
+                    alert("Please fill in the Username.");
+                    return;
+                }
+                if (address === "") {
+                    alert("Please fill in the Address.");
+                    return;
+                }
+                if (phone === "" || !phoneRegex.test(phone)) {
+                    alert("Please fill in a valid Phone Number.");
+                    return;
+                }
+                if (email === "" || !emailRegex.test(email)) {
+                    alert("Please fill in a valid Email Address.");
+                    return;
+                }
+                if (registrationDate === "") {
+                    alert("Please fill in the Registration Date.");
+                    return;
+                }
+                if (age < 18 || age > 60) {
+                    alert("Age should be between 18 and 60 to donate blood.");
+                    return;
+                }
+                if (weight < 50) {
+                    alert("Weight should be greater than or equal to 50 to donate blood.");
+                    return;
+                }
+                if (health === "yes") {
+                    alert("You cannot donate blood if your health condition is not good.");
+                    return;
+                }
+                if (bloodVolume <= 0 || isNaN(bloodVolume)) {
+                    alert("Please fill in a valid Blood Volume.");
+                    return;
+                }
+
+                // Validate registration date
+                var today = new Date();
+                var selectedDate = new Date(registrationDate);
+                if (selectedDate < today) {
+                    alert("Registration date cannot be earlier than today's date.");
+                    return;
+                }
+
+                // If all validation passes, submit the form
+                form.submit();
+            });
+        });
+    </script>
+
+
 
     <!-- for the profile section-->
 

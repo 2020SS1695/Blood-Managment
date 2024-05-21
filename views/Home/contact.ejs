@@ -59,17 +59,17 @@
                 <div class="left">
                     <h3>Get in touch</h3>
                     <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms .</p>
-                    <form action="#">
-                        <div>
-                            <input type="text" placeholder="First Name">
-                            <input type="text" placeholder="Last Name">
-                        </div>
-                        <div>
-                            <input type="text" placeholder="Email">
-                            <input type="text" placeholder="Password">
-                        </div>
-                        <textarea name="" id="textarea" cols="30" rows="10" placeholder="Message here .."></textarea>
-                        <button type="submit">Submit</button>
+                    <form action="/submit" method="post">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                        <p></p>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                        <p></p>
+                        <label for="message">Message:<br></label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                        <p></p>
+                        <input type="submit" value="Submit">
                     </form>
                 </div>
 
@@ -89,8 +89,9 @@
                     <p><span class="material-symbols-outlined">domain</span><a href="https://vitalab.dz.netlify.app/">https://vitalab.dz.netlify.app/</a></p>
                 </div> -->
                 <div>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2378.8106456745954!2d1.3388892536550483!3d36.15395782630738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12840f4f4cf0c323%3A0xd6eb9078ae20096d!2sLaboratoire%20dar%20chiffa%20dr%20salaouatchi%20sp%C3%A9cialiste%20en%20h%C3%A9matologie!5e0!3m2!1sfr!2sdz!4v1713393576444!5m2!1sfr!2sdz"
-                        width="600" height="450"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.4814121100553!2d77.56295087352491!3d12.941017415551173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae158b11e34d2f%3A0x5f4adbdbab8bd80f!2sBMS%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1716311337891!5m2!1sen!2sin"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
                 </div>
             </div>
 
@@ -114,11 +115,6 @@
         </div>
 
         <div class="end">
-
-            <div>
-                <input type="text" placeholder="Enter your email" />
-                <button>Subscribe</button>
-            </div>
         </div>
         <hr />
         <p>© 2024 VitaLab. All rights reserved.</p>

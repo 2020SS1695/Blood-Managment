@@ -27,9 +27,6 @@ const pool = new Pool({
 app.post("/submit", async(req, res) => {
     try {
         const { username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume } = req.body;
-        if (!username) {
-            return res.status(400).send("Username is required");
-        }
 
         const query = `
             INSERT INTO donor (username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume)
@@ -38,7 +35,7 @@ app.post("/submit", async(req, res) => {
         await pool.query(query, [username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume]);
 
         const registrationDate = new Date(registration_date);
-        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 11, 20, 0);
+        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 10, 20, 0);
 
         console.log(`Scheduling email for ${username} at ${scheduleDate}`);
 
@@ -89,6 +86,23 @@ app.post("/submit", async(req, res) => {
     } catch (error) {
         console.error("Error inserting data into database:", error);
         res.status(500).send("An error occurred while processing your request.");
+    }
+});
+
+app.post("/submit", async(req, res) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const message = req.body.message;
+    const checkResult = await db.query("SELECT * FROM contact WHERE email = $1", [email, ]);
+    if (checkResult.rows.length > 0) {
+        res.send("Email Already exist");
+    } else {
+        const result = await db.query(
+            "INSERT INTO contact (name, email,message) VALUES ($1, $2,$3)", [name, email, message]
+        );
+
+        console.log(result);
+        res.render("index.ejs");
     }
 });
 

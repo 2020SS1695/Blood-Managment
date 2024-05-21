@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmation</title>
+    <title>Thank You</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,13 +36,21 @@
     </style>
 </head>
 
+
+<script>
+    // Redirect to home page after 5 seconds
+    setTimeout(function() {
+        window.location.href = '/';
+    }, 5000);
+</script>
+</head>
+
 <body>
     <h1>Thank You for Your Donation!</h1>
     <div class="message">
         <p>We are grateful for your contribution.</p>
         <p>Your registration details have been successfully submitted.</p>
     </div>
-    <a href="/" class="btn">Go to Home Page</a>
 </body>
 
 </html>
