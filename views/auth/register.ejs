@@ -92,9 +92,9 @@
                         </div>
 
                         <div>
-                            <label for="text">Health</label>
+                            <label for="text">Health Issue</label>
                             <select name="health" id="health">
-                                <option value="" selected disabled hidden>Do you have any diseases?</option>
+                                <option value="" selected disabled hidden>Health issue ?</option>
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
                             </select>
@@ -103,7 +103,6 @@
                             <label for="blood_volume">Blood Volume (in ml)</label>
                             <input type="number" name="blood_volume" id="blood_volume" placeholder="Enter your blood volume (in ml)" />
                         </div>
-
                     </div>
                     <div class="group-btns">
                         <button type="submit" name="submit">Donate</button>
@@ -121,12 +120,17 @@
         </section>
 
     </main>
+
+
+    <script src="js/nav.js"></script>
+    <script src="js/profile.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var form = document.querySelector("form");
 
             form.addEventListener("submit", function(event) {
-                event.preventDefault(); // Prevent the default form submission
+                // Prevent the default form submission
+                event.preventDefault();
 
                 // Get form inputs
                 var username = document.getElementById("username").value.trim();
@@ -190,18 +194,11 @@
                 }
 
                 // If all validation passes, submit the form
+                form.removeEventListener("submit", arguments.callee);
                 form.submit();
             });
         });
     </script>
-
-
-
-    <!-- for the profile section-->
-
-
-    <script src="js/nav.js"></script>
-    <script src="js/profile.js"></script>
 </body>
 
 </html>

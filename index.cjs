@@ -6,6 +6,7 @@ const { Pool } = require('pg');
 const nodemailer = require("nodemailer");
 const schedule = require('node-schedule');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 const app = express();
 const port = 3000;
@@ -89,21 +90,58 @@ app.post("/submit", async(req, res) => {
     }
 });
 
-app.post("/submit", async(req, res) => {
+app.post("/feed", async(req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const message = req.body.message;
-    const checkResult = await db.query("SELECT * FROM contact WHERE email = $1", [email, ]);
-    if (checkResult.rows.length > 0) {
-        res.send("Email Already exist");
-    } else {
-        const result = await db.query(
-            "INSERT INTO contact (name, email,message) VALUES ($1, $2,$3)", [name, email, message]
-        );
 
-        console.log(result);
-        res.render("index.ejs");
+    try {
+        const checkResult = await pool.query("SELECT * FROM contact WHERE email = $1", [email]);
+        if (checkResult.rows.length > 0) {
+            res.send("Email Already exist");
+        } else {
+            const result = await pool.query(
+                "INSERT INTO contact (name, email, message) VALUES ($1, $2, $3)", [name, email, message]
+            );
+
+            console.log(result);
+            res.render("thankyou"); // Render the thank you page
+        }
+    } catch (error) {
+        console.error("Error inserting data:", error);
+        res.status(500).send("An error occurred. Please try again later.");
     }
+});
+
+app.use(session({
+    secret: '#123',
+    resave: false,
+    saveUninitialized: true,
+}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.get('/', (req, res) => {
+    const successMessage = req.session.successMessage;
+    const successMessageExpiry = req.session.successMessageExpiry;
+
+    // Check if the current date is before or on the donation date
+    const showMessage = successMessage && new Date() <= new Date(successMessageExpiry);
+
+    // Pass the message and conditionally render it
+    res.render('Home/home.ejs', { successMessage, successMessageExpiry });
+});
+
+app.post('/create', (req, res) => {
+    const donationDate = req.body.date;
+    const location = req.body.location;
+    const description = req.body.description;
+
+    // Set the success message and its expiry date in the session
+    req.session.successMessage = `The blood campaign is on ${donationDate} at ${location}. ${description}`;
+    req.session.successMessageExpiry = donationDate;
+
+    res.redirect('/');
 });
 
 app.get('/admin', async(req, res) => {

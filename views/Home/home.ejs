@@ -63,287 +63,292 @@
             </div>
         </article>
     </section>
-
-    <!-- About us -->
-    <section class="about">
-        <article>
-
-            <div>
-                <h3>Who are we ?</h3>
-                <span>We are here not for income, but for outcome</span>
-                <p>
-                    Which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when untrammelled and when nothing prevents
-                </p>
-                <button>Explore More</button>
-            </div>
-
-            <div>
-                <img src="assets/images/who-are-we.jpeg" alt="who_are_we" width="600px" />
-            </div>
-        </article>
-    </section>
-
-    <!-- Get Involved  -->
-    <section class="getInvolved">
-        <h3>Get Involved</h3>
-        <div class="involved">
-            <article>
-                <div>
-                    <img src="assets/images/Image_donor.jpg" alt="Become a Donor" width="270px" height="220px" />
-                </div>
-                <div>
-                    <h3>Become a Donor</h3>
-                    <p>
-                        Join our community of lifesavers by becoming a blood donor. Your simple act of donating blood can make a significant impact on someone's life. Learn more about the donation process and how you can contribute.
-                    </p>
-                    <button>Learn More</button>
-                </div>
-            </article>
-
-            <article>
-                <div>
-                    <img src="assets/images/Why_Donor.PNG" alt="Why give blood" width="270px" height="220px" />
-                </div>
-                <div>
-                    <h3>Why Give Blood?</h3>
-                    <p>
-                        Discover the compelling reasons behind blood donation. From saving lives to contributing to community health, learn about the numerous benefits and positive impacts that come with the selfless act of giving blood.
-                    </p>
-                    <button>Learn More</button>
-                </div>
-            </article>
-
-            <article>
-                <div>
-                    <img src="assets/images/blood-donors-smile.webp" alt="How Donation Helps" height="200px" />
-                </div>
-                <div>
-                    <h3>How Donation Helps</h3>
-                    <p>
-                        Explore the far-reaching effects of your blood donation. Understand the vital role it plays in medical treatments, emergencies, and maintaining a stable blood supply. Learn more about the incredible ways your donation makes a difference.
-                    </p>
-                    <button>Learn More</button>
-                </div>
-            </article>
+    <% if (successMessage && new Date() <= new Date(successMessageExpiry)) { %>
+        <div class="message">
+            <%= successMessage %>
         </div>
-    </section>
+        <% } %>
 
-    <!-- Our Achievements -->
-    <section class="achievement">
-        <article>
-            <span class="material-symbols-outlined">social_leaderboard</span>
-            <h4>25</h4>
-            <p>Year experiance</p>
-        </article>
+            <!-- About us -->
+            <section class="about">
+                <article>
 
-        <article>
-            <span class="material-symbols-outlined">stethoscope</span>
-            <h4>3225</h4>
-            <p>Happy Donors</p>
-        </article>
-
-        <article>
-            <span class="material-symbols-outlined">trophy</span>
-            <h4>90</h4>
-            <p>Total Awards</p>
-        </article>
-
-        <article>
-            <span class="material-symbols-outlined">diversity_1</span>
-            <h4>3168</h4>
-            <p>Happy Recipient</p>
-        </article>
-    </section>
-
-
-    <!-- Donation process -->
-    <section class="Donates">
-        <p>What we do ?</p>
-        <h2>Donation Process</h2>
-
-        <div class="process_donate">
-            <!-- Process Bar Line -->
-            <div class="process_donate_line">
-                <div class="line-progress"></div>
-            </div>
-
-            <!-- Process articles -->
-            <div class="process_donate_list">
-                <!-- Left Box -->
-                <article class="process_donate_item">
-                    <div class="card_box">
-                        <!-- Number Code-->
-                        <div class="point_box">
-                            <div class="card_point">01</div>
-                        </div>
-
-                        <!-- Name Code-->
-                        <div class="card_meta_box">
-                            <div class="card_meta">Registration</div>
-                        </div>
+                    <div>
+                        <h3>Who are we ?</h3>
+                        <span>We are here not for income, but for outcome</span>
+                        <p>
+                            Which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when untrammelled and when nothing prevents
+                        </p>
+                        <button>Explore More</button>
                     </div>
 
-                    <!-- Card Code-->
-                    <div class="card_item">
-                        <div class="card_inner">
-                            <div class="card_img-box">
-                                <span class="material-symbols-outlined"> person_add </span>
-                                <p>
-                                    Start your journey by registering with us. Fill out the required information to become a donor.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="arrow"></div>
+                    <div>
+                        <img src="assets/images/who-are-we.jpeg" alt="who_are_we" width="600px" />
                     </div>
                 </article>
+            </section>
 
-                <!-- Right Box -->
-                <article class="process_donate_item">
-                    <div class="card_box">
-                        <!-- Name Code-->
-                        <div class="card_meta_box">
-                            <div class="card_meta">Screen Test</div>
+            <!-- Get Involved  -->
+            <section class="getInvolved">
+                <h3>Get Involved</h3>
+                <div class="involved">
+                    <article>
+                        <div>
+                            <img src="assets/images/Image_donor.jpg" alt="Become a Donor" width="270px" height="220px" />
                         </div>
+                        <div>
+                            <h3>Become a Donor</h3>
+                            <p>
+                                Join our community of lifesavers by becoming a blood donor. Your simple act of donating blood can make a significant impact on someone's life. Learn more about the donation process and how you can contribute.
+                            </p>
+                            <button>Learn More</button>
+                        </div>
+                    </article>
 
-                        <!-- Number Code-->
-                        <div class="point_box">
-                            <div class="card_point">02</div>
+                    <article>
+                        <div>
+                            <img src="assets/images/Why_Donor.PNG" alt="Why give blood" width="270px" height="220px" />
                         </div>
-                    </div>
+                        <div>
+                            <h3>Why Give Blood?</h3>
+                            <p>
+                                Discover the compelling reasons behind blood donation. From saving lives to contributing to community health, learn about the numerous benefits and positive impacts that come with the selfless act of giving blood.
+                            </p>
+                            <button>Learn More</button>
+                        </div>
+                    </article>
 
-                    <!-- Card -->
-                    <div class="card_item">
-                        <div class="card_inner">
-                            <div class="card_img-box">
-                                <span class="material-symbols-outlined"> experiment </span>
-                                <p>
-                                    Undergo a screening test to ensure your eligibility for donation. This step helps maintain the health and safety of both the donor and the recipient.
-                                </p>
-                            </div>
+                    <article>
+                        <div>
+                            <img src="assets/images/blood-donors-smile.webp" alt="How Donation Helps" height="200px" />
                         </div>
-                        <div class="arrow"></div>
-                    </div>
+                        <div>
+                            <h3>How Donation Helps</h3>
+                            <p>
+                                Explore the far-reaching effects of your blood donation. Understand the vital role it plays in medical treatments, emergencies, and maintaining a stable blood supply. Learn more about the incredible ways your donation makes a difference.
+                            </p>
+                            <button>Learn More</button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Our Achievements -->
+            <section class="achievement">
+                <article>
+                    <span class="material-symbols-outlined">social_leaderboard</span>
+                    <h4>25</h4>
+                    <p>Year experiance</p>
                 </article>
 
-                <!-- Left Box -->
-                <article class="process_donate_item">
-                    <div class="card_box">
-                        <!-- Number-->
-                        <div class="point_box">
-                            <div class="card_point">03</div>
-                        </div>
+                <article>
+                    <span class="material-symbols-outlined">stethoscope</span>
+                    <h4>3225</h4>
+                    <p>Happy Donors</p>
+                </article>
 
-                        <!-- Name -->
-                        <div class="card_meta_box">
-                            <div class="card_meta">Donation</div>
-                        </div>
+                <article>
+                    <span class="material-symbols-outlined">trophy</span>
+                    <h4>90</h4>
+                    <p>Total Awards</p>
+                </article>
+
+                <article>
+                    <span class="material-symbols-outlined">diversity_1</span>
+                    <h4>3168</h4>
+                    <p>Happy Recipient</p>
+                </article>
+            </section>
+
+
+            <!-- Donation process -->
+            <section class="Donates">
+                <p>What we do ?</p>
+                <h2>Donation Process</h2>
+
+                <div class="process_donate">
+                    <!-- Process Bar Line -->
+                    <div class="process_donate_line">
+                        <div class="line-progress"></div>
                     </div>
 
-                    <!-- Card -->
-                    <div class="card_item">
-                        <div class="card_inner">
-                            <div class="card_img-box">
-                                <span class="material-symbols-outlined">
+                    <!-- Process articles -->
+                    <div class="process_donate_list">
+                        <!-- Left Box -->
+                        <article class="process_donate_item">
+                            <div class="card_box">
+                                <!-- Number Code-->
+                                <div class="point_box">
+                                    <div class="card_point">01</div>
+                                </div>
+
+                                <!-- Name Code-->
+                                <div class="card_meta_box">
+                                    <div class="card_meta">Registration</div>
+                                </div>
+                            </div>
+
+                            <!-- Card Code-->
+                            <div class="card_item">
+                                <div class="card_inner">
+                                    <div class="card_img-box">
+                                        <span class="material-symbols-outlined"> person_add </span>
+                                        <p>
+                                            Start your journey by registering with us. Fill out the required information to become a donor.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="arrow"></div>
+                            </div>
+                        </article>
+
+                        <!-- Right Box -->
+                        <article class="process_donate_item">
+                            <div class="card_box">
+                                <!-- Name Code-->
+                                <div class="card_meta_box">
+                                    <div class="card_meta">Screen Test</div>
+                                </div>
+
+                                <!-- Number Code-->
+                                <div class="point_box">
+                                    <div class="card_point">02</div>
+                                </div>
+                            </div>
+
+                            <!-- Card -->
+                            <div class="card_item">
+                                <div class="card_inner">
+                                    <div class="card_img-box">
+                                        <span class="material-symbols-outlined"> experiment </span>
+                                        <p>
+                                            Undergo a screening test to ensure your eligibility for donation. This step helps maintain the health and safety of both the donor and the recipient.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="arrow"></div>
+                            </div>
+                        </article>
+
+                        <!-- Left Box -->
+                        <article class="process_donate_item">
+                            <div class="card_box">
+                                <!-- Number-->
+                                <div class="point_box">
+                                    <div class="card_point">03</div>
+                                </div>
+
+                                <!-- Name -->
+                                <div class="card_meta_box">
+                                    <div class="card_meta">Donation</div>
+                                </div>
+                            </div>
+
+                            <!-- Card -->
+                            <div class="card_item">
+                                <div class="card_inner">
+                                    <div class="card_img-box">
+                                        <span class="material-symbols-outlined">
                   volunteer_activism
                 </span>
-                                <p>
-                                    Once cleared, proceed with the donation process. Your contribution can make a significant impact on someone's life.
-                                </p>
+                                        <p>
+                                            Once cleared, proceed with the donation process. Your contribution can make a significant impact on someone's life.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="arrow"></div>
                             </div>
-                        </div>
+                        </article>
 
-                        <div class="arrow"></div>
-                    </div>
-                </article>
+                        <!-- Right Box -->
+                        <article class="process_donate_item">
+                            <div class="card_box">
+                                <!-- Name-->
+                                <div class="card_meta_box">
+                                    <div class="card_meta">Rest & Refresh</div>
+                                </div>
 
-                <!-- Right Box -->
-                <article class="process_donate_item">
-                    <div class="card_box">
-                        <!-- Name-->
-                        <div class="card_meta_box">
-                            <div class="card_meta">Rest & Refresh</div>
-                        </div>
-
-                        <!-- Number -->
-                        <div class="point_box">
-                            <div class="card_point">04</div>
-                        </div>
-                    </div>
-
-                    <!-- Card -->
-                    <div class="card_item">
-                        <div class="card_inner">
-                            <div class="card_img-box">
-                                <span class="material-symbols-outlined"> relax </span>
-
-                                <p>
-                                    After the donation, take some time to rest and refresh. Our team will ensure you are comfortable and provide any necessary post-donation care.
-                                </p>
+                                <!-- Number -->
+                                <div class="point_box">
+                                    <div class="card_point">04</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="arrow"></div>
+
+                            <!-- Card -->
+                            <div class="card_item">
+                                <div class="card_inner">
+                                    <div class="card_img-box">
+                                        <span class="material-symbols-outlined"> relax </span>
+
+                                        <p>
+                                            After the donation, take some time to rest and refresh. Our team will ensure you are comfortable and provide any necessary post-donation care.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="arrow"></div>
+                            </div>
+                        </article>
                     </div>
-                </article>
+                </div>
+            </section>
+
+            <!-- Call for Donation -->
+            <section class="call">
+                <div>
+                    <p>Start Donation</p>
+                    <h2>Call Now: +91 63612 80254</h2>
+                    <div>
+                        <p>
+                            <span class="material-symbols-outlined">location_on</span> VitaLab Laboratory, Chlef
+                        </p>
+                        <p>
+                            <span class="material-symbols-outlined">mail</span>
+                            <a href="vitalab.dz@gmail.com">lingaraj.cs21@bmsce.ac.in</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials  -->
+
+
             </div>
-        </div>
-    </section>
-
-    <!-- Call for Donation -->
-    <section class="call">
-        <div>
-            <p>Start Donation</p>
-            <h2>Call Now: +91 63612 80254</h2>
-            <div>
-                <p>
-                    <span class="material-symbols-outlined">location_on</span> VitaLab Laboratory, Chlef
-                </p>
-                <p>
-                    <span class="material-symbols-outlined">mail</span>
-                    <a href="vitalab.dz@gmail.com">lingaraj.cs21@bmsce.ac.in</a>
-                </p>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
             </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Testimonials  -->
+            <!-- Scripts -->
+            <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+            <script src="js/swiper.js"></script>
+            <script src="js/nav.js"></script>
+            <!-- For the donation process -->
+            <script src="js/script.js"></script>
 
+            </main>
+            <footer>
+                <div class="footer-nav">
+                    <a href="./Home Page.html" class="logo">
+                        <img src="assets/images/Logo-donation.PNG" alt="VitaLab Logo" width="36px" />
+                        <p>VitaLab</p>
+                    </a>
+                    <div class="social">
+                        <p>Our socials</p>
+                        <a href="#"><img src="assets/images/socials/icon-facebook.svg" alt="icon-facebook" /></a>
+                        <a href="#"><img src="assets/images/socials/icon-twitter.svg" alt="icon-twitter" /></a>
+                        <a href="#"><img src="assets/images/socials/icon-pinterest.svg" alt="icon-pinterest" /></a>
+                        <a href="#"><img src="assets/images/socials/icon-instagram.svg" alt="icon-instagram" /></a>
+                    </div>
+                </div>
 
-    </div>
-    <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-    </div>
-    </section>
-
-    <!-- Scripts -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="js/swiper.js"></script>
-    <script src="js/nav.js"></script>
-    <!-- For the donation process -->
-    <script src="js/script.js"></script>
-
-    </main>
-    <footer>
-        <div class="footer-nav">
-            <a href="./Home Page.html" class="logo">
-                <img src="assets/images/Logo-donation.PNG" alt="VitaLab Logo" width="36px" />
-                <p>VitaLab</p>
-            </a>
-            <div class="social">
-                <p>Our socials</p>
-                <a href="#"><img src="assets/images/socials/icon-facebook.svg" alt="icon-facebook" /></a>
-                <a href="#"><img src="assets/images/socials/icon-twitter.svg" alt="icon-twitter" /></a>
-                <a href="#"><img src="assets/images/socials/icon-pinterest.svg" alt="icon-pinterest" /></a>
-                <a href="#"><img src="assets/images/socials/icon-instagram.svg" alt="icon-instagram" /></a>
-            </div>
-        </div>
-
-        <div class="end">
-        </div>
-        <hr />
-        <p>© 2024 VitaLab. All rights reserved.</p>
-    </footer>
+                <div class="end">
+                </div>
+                <hr />
+                <p>© 2024 VitaLab. All rights reserved.</p>
+            </footer>
 </body>
 
 </html>
