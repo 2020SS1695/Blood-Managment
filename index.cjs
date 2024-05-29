@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const schedule = require('node-schedule');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const twilio = require('twilio');
 
 const app = express();
 const port = 3000;
@@ -25,68 +26,37 @@ const pool = new Pool({
     port: process.env.DB_PORT
 });
 
+const accountSid = process.env.TWILIO_ACCOUNT_SID; // Your Twilio account SID
+const authToken = process.env.TWILIO_AUTH_TOKEN; // Your Twilio auth token
+const client = new twilio(accountSid, authToken);
+
 app.post("/submit", async(req, res) => {
     try {
-        const { username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume } = req.body;
+        const { username, address, phone, email, donation_date, age, weight, blood_group, health, blood_volume } = req.body;
 
         const query = `
-            INSERT INTO donor (username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume)
+            INSERT INTO donor (username, address, phone, email, donation_date, age, weight, blood_group, health, blood_volume)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         `;
-        await pool.query(query, [username, address, phone, email, registration_date, age, weight, blood_group, health, blood_volume]);
+        await pool.query(query, [username, address, phone, email, donation_date, age, weight, blood_group, health, blood_volume]);
 
-        const registrationDate = new Date(registration_date);
-        const scheduleDate = new Date(registrationDate.getFullYear(), registrationDate.getMonth(), registrationDate.getDate(), 10, 20, 0);
+        const currentDate = new Date();
 
-        console.log(`Scheduling email for ${username} at ${scheduleDate}`);
-
-        const job = schedule.scheduleJob(scheduleDate, async function() {
-            try {
-                const transporter = nodemailer.createTransport({
-                    host: "smtp.gmail.com",
-                    port: 465,
-                    secure: true,
-                    auth: {
-                        user: process.env.EMAIL_USER,
-                        pass: process.env.EMAIL_PASS,
-                    }
-                });
-
-                const mailOptions = {
-                    from: `"You" <${process.env.EMAIL_USER}>`,
-                    to: email,
-                    subject: "Come and Donate the Blood",
-                    html: `
-                    <h1>Hello ${username}</h1>
-                    <p>Thank you for registering as a blood donor. We encourage you to come and donate blood.</p>
-                    <p>Below is the copy of your registered data:</p>
-                    <ul>
-                        <li>Username: ${username}</li>
-                        <li>Address: ${address}</li>
-                        <li>Phone: ${phone}</li>
-                        <li>Email: ${email}</li>
-                        <li>Registration Date: ${registration_date}</li>
-                        <li>Age: ${age}</li>
-                        <li>Weight: ${weight}</li>
-                        <li>Blood Group: ${blood_group}</li>
-                        <li>Health: ${health}</li>
-                        <li>Blood Volume: ${blood_volume}</li>
-                    </ul>
-                    `,
-                };
-
-                console.log(`Sending email to ${email}`);
-                const info = await transporter.sendMail(mailOptions);
-                console.log('Email sent:', info.messageId);
-            } catch (error) {
-                console.error("Error sending email:", error);
-            }
-        });
+        try {
+            const message = await client.messages.create({
+                body: `Thank you, ${username}, for registering as a donor on ${currentDate.toDateString()}.`,
+                from: process.env.TWILIO_PHONE_NUMBER, // Your Twilio phone number
+                to: phone
+            });
+            console.log(`SMS sent to ${username} at ${phone}`);
+        } catch (error) {
+            console.error(`Failed to send SMS: ${error}`);
+        }
 
         res.redirect("/confirmation");
     } catch (error) {
-        console.error("Error inserting data into database:", error);
-        res.status(500).send("An error occurred while processing your request.");
+        console.error(`Error in /submit: ${error}`);
+        res.status(500).json({ error: "An error occurred while processing your request." });
     }
 });
 
@@ -155,7 +125,7 @@ app.get('/admin', async(req, res) => {
 
             // Format each registration_date in the result set
             result.rows = result.rows.map(row => {
-                const date = new Date(row.registration_date);
+                const date = new Date(row.donation_date);
 
                 // Extract the day, month, and year
                 const day = String(date.getDate()).padStart(2, '0');
@@ -163,7 +133,7 @@ app.get('/admin', async(req, res) => {
                 const year = date.getFullYear();
 
                 // Format the date as dd-mm-yyyy
-                row.registration_date = `${day}-${month}-${year}`;
+                row.donation_date = `${day}-${month}-${year}`;
 
                 return row;
             });

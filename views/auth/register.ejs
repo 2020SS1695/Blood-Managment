@@ -41,7 +41,7 @@
         <section class="container login-container">
             <article class="container-form">
                 <h2>Register for Donation</h2>
-                <form action="/submit" method="post">
+                <form method="POST" action="/submit" onsubmit="addCountryCode()">
                     <input name="donation_id" type="hidden">
                     <input name="donor_id" type="hidden">
                     <div class="group-inputs">
@@ -64,8 +64,8 @@
                         </div>
 
                         <div>
-                            <label for="registration_date">Registration Date</label>
-                            <input type="date" name="registration_date" id="registration_date" placeholder="Enter your registration date" />
+                            <label for="donation_date">Donation Date</label>
+                            <input type="date" name="donation_date" id="donation_date" placeholder="Enter your donation date" />
                         </div>
                         <div>
                             <label for="number">Age</label>
@@ -94,7 +94,7 @@
                         <div>
                             <label for="text">Health Issue</label>
                             <select name="health" id="health">
-                                <option value="" selected disabled hidden>Health issue ?</option>
+                                <option value="" selected disabled hidden>Health issue?</option>
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
                             </select>
@@ -137,7 +137,7 @@
                 var address = document.getElementById("address").value.trim();
                 var phone = document.getElementById("phone").value.trim();
                 var email = document.getElementById("email").value.trim();
-                var registrationDate = document.getElementById("registration_date").value.trim();
+                var registrationDate = document.getElementById("donation_date").value.trim();
                 var age = parseInt(document.getElementById("age").value.trim()); // Parse to integer for numeric comparison
                 var weight = parseInt(document.getElementById("weight").value.trim()); // Parse to integer for numeric comparison
                 var bloodGroup = document.getElementById("blood_group").value;
@@ -165,7 +165,7 @@
                     return;
                 }
                 if (registrationDate === "") {
-                    alert("Please fill in the Registration Date.");
+                    alert("Please fill in the Donation Date.");
                     return;
                 }
                 if (age < 18 || age > 60) {
@@ -189,7 +189,7 @@
                 var today = new Date();
                 var selectedDate = new Date(registrationDate);
                 if (selectedDate < today) {
-                    alert("Registration date cannot be earlier than today's date.");
+                    alert("Donation date cannot be earlier than today's date.");
                     return;
                 }
 
@@ -199,6 +199,19 @@
             });
         });
     </script>
+    <script>
+        function addCountryCode() {
+            var phoneInput = document.getElementById('phone');
+            var phoneValue = phoneInput.value;
+
+            // Check if the phone number doesn't already start with '+91'
+            if (!phoneValue.startsWith('+91')) {
+                // Concatenate '+91' with the entered phone number
+                phoneInput.value = '+91' + phoneValue;
+            }
+        }
+    </script>
+
 </body>
 
 </html>
