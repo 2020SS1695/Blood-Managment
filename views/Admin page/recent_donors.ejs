@@ -27,8 +27,8 @@
     <section id="sidebar">
 
         <a href="/" class="logo">
-            <img src="assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px">
-            <p>VitaLab</p>
+            <img src="assets/images/Logo-donation.png" alt="BLOODCELL Logo" width="36px">
+            <p>BLOODCELL</p>
         </a>
 
         <ul class="side-menu top">
@@ -187,8 +187,9 @@
                                                 <input type="hidden" name="donor_id" value="<%= row.id %>">
                                                 <div style="display: inline-block;">
                                                     <!-- Added div -->
-                                                    <button type="submit" name="done">Done</button>
+                                                    <button type="submit" name="done" style="width: 50px; padding: 5px; margin: 0;">Done</button>
                                                 </div>
+
                                             </form>
                                             <% } else { %>
                                                 <%= row.donation_status %>
