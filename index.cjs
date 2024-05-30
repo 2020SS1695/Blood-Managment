@@ -44,7 +44,7 @@ app.post("/submit", async(req, res) => {
 
         try {
             const message = await client.messages.create({
-                body: `Thank you, ${username}, for registering as a donor on ${currentDate.toDateString()}.`,
+                body: `This is from BLOODCELL, Thank you ${username}, for registering as a donor on ${currentDate.toDateString()}.`,
                 from: process.env.TWILIO_PHONE_NUMBER, // Your Twilio phone number
                 to: phone
             });
@@ -190,21 +190,68 @@ app.get('/donated_donors', async(req, res) => {
 app.post('/markAsDonated', async(req, res) => {
     const donor_id = req.body.donor_id; // Assuming donor_id is passed in the request body
     console.log(donor_id);
+
     try {
-        pool.query('UPDATE donor SET donated = true WHERE id = $1', [donor_id], (err, result) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send('Server Error');
-                return;
+        const client = await pool.connect();
+        const result = await client.query('UPDATE donor SET donated = true WHERE id = $1 RETURNING *', [donor_id]);
+        client.release();
+
+        if (result.rows.length === 0) {
+            res.status(404).send('Donor not found');
+            return;
+        }
+
+        const donor = result.rows[0];
+
+        // Send email
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
             }
-            // Redirect to the recent donors page after marking as done
-            res.redirect('/recent');
         });
+
+        const mailOptions = {
+            from: `"Blood Donation" <${process.env.EMAIL_USER}>`,
+            to: donor.email,
+            subject: "Thank You for Donating Blood",
+            html: `
+                <h1>Hello ${donor.username}</h1>
+                <p>Thank you for donating blood. Here are your details:</p>
+                <ul>
+                    <li>Username: ${donor.username}</li>
+                    <li>Address: ${donor.address}</li>
+                    <li>Phone: ${donor.phone}</li>
+                    <li>Email: ${donor.email}</li>
+                    <li>Donation Date: ${donor.donation_date}</li>
+                    <li>Age: ${donor.age}</li>
+                    <li>Weight: ${donor.weight}</li>
+                    <li>Blood Group: ${donor.blood_group}</li>
+                    <li>Health: ${donor.health}</li>
+                    <li>Blood Volume: ${donor.blood_volume}</li>
+                </ul>
+            `,
+            attachments: [{
+                filename: 'certificate.pdf',
+                path: './attachments/certificate.pdf', // Path to your certificate file
+                contentType: 'application/pdf'
+            }]
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent:', info.messageId);
+
+        // Redirect to the recent donors page after marking as done
+        res.redirect('/recent');
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
     }
 });
+
 
 
 
