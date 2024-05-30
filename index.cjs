@@ -114,9 +114,10 @@ app.post('/create', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/admin', async(req, res) => {
+
+app.get('/recent', async(req, res) => {
     try {
-        pool.query('SELECT * FROM donor order by id desc', (err, result) => {
+        pool.query('SELECT * FROM donor where donated=false order by id desc', (err, result) => {
             if (err) {
                 console.error(err);
                 res.status(500).send('Server Error');
@@ -139,7 +140,7 @@ app.get('/admin', async(req, res) => {
             });
 
             // Render the result with formatted dates
-            res.render('Admin page/admin.ejs', {
+            res.render('Admin page/recent_donors.ejs', {
                 rows: result.rows
             });
         });
@@ -149,6 +150,63 @@ app.get('/admin', async(req, res) => {
     }
 
 });
+
+app.get('/donated_donors', async(req, res) => {
+    try {
+        pool.query('SELECT * FROM donor where donated=true order by id desc', (err, result) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Server Error');
+                return;
+            }
+
+            // Format each registration_date in the result set
+            result.rows = result.rows.map(row => {
+                const date = new Date(row.donation_date);
+
+                // Extract the day, month, and year
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                const year = date.getFullYear();
+
+                // Format the date as dd-mm-yyyy
+                row.donation_date = `${day}-${month}-${year}`;
+
+                return row;
+            });
+
+            // Render the result with formatted dates
+            res.render('Admin page/donated_donors.ejs', {
+                rows: result.rows
+            });
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+
+});
+
+app.post('/markAsDonated', async(req, res) => {
+    const donor_id = req.body.donor_id; // Assuming donor_id is passed in the request body
+    console.log(donor_id);
+    try {
+        pool.query('UPDATE donor SET donated = true WHERE id = $1', [donor_id], (err, result) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Server Error');
+                return;
+            }
+            // Redirect to the recent donors page after marking as done
+            res.redirect('/recent');
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 
 
 
@@ -176,6 +234,10 @@ app.post('/login', async(req, res) => {
         console.error(error);
         res.status(500).send('Server error');
     }
+});
+
+app.get("/admin", (req, res) => {
+    res.render("Admin page/admin.ejs");
 });
 
 app.get("/login", (req, res) => {
